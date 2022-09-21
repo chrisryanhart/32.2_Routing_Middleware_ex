@@ -31,7 +31,7 @@ router.post('/',function(req,res,next){
 router.get('/:name',function(req,res,next){
     try {
         let item = items.find(item => item.name === `${req.params.name}`);
-        // if (!item) throw new ExpressError('Item not found', 400);
+        if (!item) throw new ExpressError('Item not found', 404);
         return res.json(item);
     } catch (err) {
         return next(err);
@@ -41,7 +41,7 @@ router.get('/:name',function(req,res,next){
 router.patch('/:name',function(req,res,next){
     try {
         const foundItem = items.find(item => item.name === req.params.name);
-        if (!foundItem) throw new ExpressError('Item not found', 400);
+        if (!foundItem) throw new ExpressError('Item not found', 404);
 
         foundItem.name = req.body.name;
         foundItem.price = req.body.price;

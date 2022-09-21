@@ -40,6 +40,7 @@ describe('POST /items', ()=>{
         .send({"name": "coke", "price": 1.00});
         expect(resp.body).toEqual({added:{name: "coke", price: 1}});
     });
+
 });
 
 
@@ -53,6 +54,13 @@ describe('Patch /items/:name', ()=>{
 
         expect(resp.body).toEqual({"updated":{"name":"chips","price": 3}});
     });
+    test('Returns 404 when item not found', async ()=>{
+        const resp = await (await request(app)
+        .patch("/items/bogus")
+        .send({"name":"chips","price": 3}));
+
+        expect(resp.statusCode).toEqual(404);
+    })
 });
 
 describe('Delete /items/:name', ()=>{
